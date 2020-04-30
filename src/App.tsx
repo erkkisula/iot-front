@@ -1,8 +1,9 @@
 import React from 'react';
+import Router from './components/Router';
 
 class App extends React.Component {
     render() {
-        return <div>Ma olen app</div>;
+        return <Router />;
     }
 }
 
