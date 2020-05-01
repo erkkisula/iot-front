@@ -1,10 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
+import Device from "../components/Device";
+import data from "../mocks/mockData";
 
 export default class HomePage extends PureComponent {
-
     render() {
-        return (
-            <div>I am homepage</div>
-        );
+        return <Device deviceInfo={data} />;
     }
 }
