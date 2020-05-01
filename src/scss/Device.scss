@@ -51,6 +51,7 @@
     font-weight: bold;
 
     input[type="text"] {
+        width: 200px;
         border: none;
         border-bottom: 1px solid $app-black;
         height: 20px;
@@ -58,11 +59,11 @@
         transition: all 0.2s;
         &:focus {
             outline: none;
-            background-color: #0000000e;
+            width: 260px;
         }
 
         &:hover {
-            background-color: #0000001a;
+            width: 260px;
         }
     }
 }
