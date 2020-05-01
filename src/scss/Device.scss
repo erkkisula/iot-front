@@ -1,0 +1,68 @@
+.device-body {
+    background-color: #ffffff;
+    width: 500px;
+    padding: 20px;
+    margin: 20px;
+
+    h2 {
+        color: $app-black;
+        font-size: 32px;
+    }
+}
+
+.info-row {
+    color: $app-black;
+    font-size: 18px;
+    font-weight: bold;
+    .info-value {
+        padding-left: 10px;
+        color: $app-blue;
+    }
+}
+
+.device-form {
+    font-size: 18px;
+
+    label {
+        display: block;
+        width: 200px;
+    }
+
+    input[type="submit"] {
+        width: 100px;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        font-size: 15px;
+        font-weight: bold;
+        background-color: #000000;
+        margin-top: 32px;
+        color: #ffffff;
+        transition: all 0.2s;
+        &:hover {
+            background-color: $app-blue;
+        }
+    }
+}
+
+.form-row {
+    display: flex;
+    padding-bottom: 10px;
+    font-weight: bold;
+
+    input[type="text"] {
+        border: none;
+        border-bottom: 1px solid $app-black;
+        height: 20px;
+        font-size: 18px;
+        transition: all 0.2s;
+        &:focus {
+            outline: none;
+            background-color: #0000000e;
+        }
+
+        &:hover {
+            background-color: #0000001a;
+        }
+    }
+}

@@ -149,10 +149,22 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
         return (
             <div className="device-body">
                 <div className="device-info">
-                    <h2 className="device-name">{this.props.deviceInfo.deviceName}</h2>
-                    <div className="device-id">Seadme id: {this.props.deviceInfo.deviceId}</div>
-                    <div className="device-noise">Müra: {this.state.currentNoise}dB</div>
-                    <div className="device-power">Energia kasutus: {this.state.currentPower}W</div>
+                    <h2 className="device-name">
+                        {" "}
+                        <span className="info-value">{this.props.deviceInfo.deviceName}</span>{" "}
+                    </h2>
+                    <div className="device-id info-row">
+                        Seadme id:
+                        <span className="info-value">{this.props.deviceInfo.deviceId}</span>
+                    </div>
+                    <div className="device-noise info-row">
+                        Müra:
+                        <span className="info-value">{this.state.currentNoise}dB</span>
+                    </div>
+                    <div className="device-power info-row">
+                        Energia kasutus:
+                        <span className="info-value">{this.state.currentPower}W</span>
+                    </div>
                 </div>
                 <br />
                 <div className="device-form">
