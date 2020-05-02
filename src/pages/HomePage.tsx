@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react";
 import Device from "../components/Device";
-import data from "../mocks/mockData";
 import Sidebar from "../components/Sidebar";
 import DeviceInfo from "../types/DeviceInfo";
 
@@ -14,8 +13,8 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
         super(props);
         this.state = {
             devices: [
-                { deviceId: "1", deviceName: "DEV001", devicePower: 160 },
-                { deviceId: "1", deviceName: "DEV001", devicePower: 160 },
+                { deviceId: "1", deviceName: "DEV001", devicePower: 1600 },
+                { deviceId: "2", deviceName: "DEV002", devicePower: 250 },
             ],
             activeDevice: 0,
         };
@@ -36,7 +35,7 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
                     itemOnClick={this.changeActiveItem}
                 />
                 <div className="homepage-device-container">
-                    <Device deviceInfo={data} />
+                    <Device deviceInfo={this.state.devices[this.state.activeDevice]} />
                 </div>
             </div>
         );

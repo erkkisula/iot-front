@@ -3,7 +3,7 @@ import DeviceInfo from "../types/DeviceInfo";
 import DeviceDataToSend from "../types/DeviceDataToSend";
 
 interface DeviceState {
-    basePower: number;
+    device: DeviceInfo;
     currentPower: number;
     currentNoise: number;
     powerHigh: number;
@@ -25,7 +25,7 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            basePower: 0,
+            device: { deviceId: "", deviceName: "", devicePower: 0 },
             currentPower: 0,
             currentNoise: 0,
             powerHigh: 0,
@@ -40,8 +40,14 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
     }
 
     createRandomCurrentPower = () => {
-        let powerHigh = this.props.deviceInfo.devicePower * 1.5;
-        return Math.floor(Math.random() * powerHigh) + this.state.powerLow;
+        let value =
+            Math.floor(
+                Math.random() *
+                    (this.props.deviceInfo.devicePower * 1.5 -
+                        this.props.deviceInfo.devicePower * 0.5)
+            ) +
+            this.props.deviceInfo.devicePower * 0.5;
+        return value;
     };
 
     changeCurrentPower = () => {
@@ -55,8 +61,8 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
             if (newPowerValue + change >= this.state.powerHigh) {
                 newPowerValue -= change;
             } else {
-                if (newPowerValue < this.state.basePower) {
-                    let difference = this.state.basePower / newPowerValue;
+                if (newPowerValue < this.state.device.devicePower) {
+                    let difference = this.state.device.devicePower / newPowerValue;
                     newPowerValue += change * difference;
                 } else {
                     newPowerValue += change;
@@ -67,8 +73,8 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
             if (newPowerValue - change <= this.state.powerLow) {
                 newPowerValue += change * 10;
             } else {
-                if (newPowerValue < this.state.basePower) {
-                    let difference = newPowerValue / this.state.basePower;
+                if (newPowerValue < this.state.device.devicePower) {
+                    let difference = newPowerValue / this.state.device.devicePower;
                     newPowerValue -= change * difference;
                 } else {
                     newPowerValue -= change;
@@ -83,13 +89,16 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
 
     changeCurrentNoise = () => {
         const dir = Math.floor(Math.random() * 1000);
-        const change = Math.random() * 2 * (this.state.currentPower / this.state.basePower);
+        const change =
+            Math.random() * 2 * (this.state.currentPower / this.state.device.devicePower);
         let newNoiseValue = this.state.currentPower * 0.08;
         if (dir <= 500) {
             newNoiseValue += change;
         } else {
             newNoiseValue -= change;
         }
+
+        newNoiseValue = newNoiseValue / 4;
 
         this.setState({
             currentNoise: Math.round((newNoiseValue + Number.EPSILON) * 100) / 100,
@@ -105,8 +114,9 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
 
     setData = () => {
         this.setState({
-            basePower: this.props.deviceInfo.devicePower,
+            device: this.props.deviceInfo,
             currentPower: this.createRandomCurrentPower(),
+            powerLow: this.props.deviceInfo.devicePower * 0.5,
             powerHigh: this.props.deviceInfo.devicePower * 1.5,
             dataLoaded: true,
         });
@@ -141,6 +151,12 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
         }, 1000);
     };
 
+    componentDidUpdate = () => {
+        if (this.props.deviceInfo.deviceId !== this.state.device.deviceId) {
+            this.setData();
+        }
+    };
+
     componentWillUnmount = () => {
         clearInterval(this.timerID);
     };
@@ -151,11 +167,11 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
                 <div className="device-info">
                     <h2 className="device-name">
                         {" "}
-                        <span className="info-value">{this.props.deviceInfo.deviceName}</span>{" "}
+                        <span className="info-value">{this.state.device.deviceName}</span>{" "}
                     </h2>
                     <div className="device-id info-row">
                         Seadme id:
-                        <span className="info-value">{this.props.deviceInfo.deviceId}</span>
+                        <span className="info-value">{this.state.device.deviceId}</span>
                     </div>
                     <div className="device-noise info-row">
                         Müra:
