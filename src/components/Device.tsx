@@ -113,13 +113,19 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
     };
 
     setData = () => {
-        this.setState({
-            device: this.props.deviceInfo,
-            currentPower: this.createRandomCurrentPower(),
-            powerLow: this.props.deviceInfo.devicePower * 0.5,
-            powerHigh: this.props.deviceInfo.devicePower * 1.5,
-            dataLoaded: true,
-        });
+        this.setState(
+            {
+                device: this.props.deviceInfo,
+                currentPower: this.createRandomCurrentPower(),
+                powerLow: this.props.deviceInfo.devicePower * 0.5,
+                powerHigh: this.props.deviceInfo.devicePower * 1.5,
+                dataLoaded: true,
+            },
+            () => {
+                this.changeCurrentPower();
+                this.changeCurrentNoise();
+            }
+        );
     };
 
     handleSubmit = (e: any) => {

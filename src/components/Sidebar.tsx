@@ -3,7 +3,7 @@ import SidebarItem from "./SidebarItem";
 import DeviceInfo from "../types/DeviceInfo";
 
 interface SidebarProps {
-    itemOnClick: any;
+    itemOnClick: Function;
     data: DeviceInfo[];
     activeItem: number;
 }
