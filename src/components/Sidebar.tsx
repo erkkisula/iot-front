@@ -1,42 +1,29 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import SidebarItem from "./SidebarItem";
+import DeviceInfo from "../types/DeviceInfo";
 
-interface SidebarState {
-    activeItem: any;
-    data: any;
+interface SidebarProps {
+    itemOnClick: any;
+    data: DeviceInfo[];
+    activeItem: number;
 }
-
-export default class Sidebar extends PureComponent<{}, SidebarState> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            activeItem: 1,
-            data: [{ text: "DEV001" }, { text: "DEV002" }, { text: "DEV003" }],
-        };
-    }
-
-    changeActiveItem = (index: number) => {
-        this.setState({
-            activeItem: index,
-        });
-    };
-
-    render() {
-        return (
-            <div className="sidebar-body">
-                <div className="sidebar-title">
-                    <span>Seadmed</span>
-                </div>
-                <div className="divider"></div>
-                {this.state.data.map((item: { text: string }, i: number) => (
-                    <SidebarItem
-                        key={i}
-                        text={item.text}
-                        active={i === this.state.activeItem}
-                        onClick={() => this.changeActiveItem(i)}
-                    />
-                ))}
+const Sidebar = (props: SidebarProps) => {
+    return (
+        <div className="sidebar-body">
+            <div className="sidebar-title">
+                <span>Seadmed</span>
             </div>
-        );
-    }
-}
+            <div className="divider"></div>
+            {props.data.map((item, i: number) => (
+                <SidebarItem
+                    key={i}
+                    text={item.deviceName}
+                    active={i === props.activeItem}
+                    onClick={() => props.itemOnClick(i)}
+                />
+            ))}
+        </div>
+    );
+};
+
+export default Sidebar;
