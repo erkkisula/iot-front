@@ -1,13 +1,14 @@
-@import "Variables.scss";
+@import 'Variables.scss';
 // Pages
+@import 'Homepage.scss';
 
 // Components
-@import "Device.scss";
-@import "Sidebar.scss";
-@import "SidebarItem.scss";
+@import 'Device.scss';
+@import 'Sidebar.scss';
+@import 'SidebarItem.scss';
 
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
