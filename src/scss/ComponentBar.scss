@@ -1,0 +1,38 @@
+.bar-body {
+    width: 600px;
+    height: 40px;
+    margin-top: 15px;
+}
+
+.bar-option-container {
+    display: flex;
+    margin-left: 40px;
+    width: 310px;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.bar-option {
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    background-color: #ffffff;
+    color: $app-black;
+    border-radius: 5px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #cacaca;
+    }
+}
+
+.active {
+    background-color: $app-blue;
+    color: #ffffff;
+
+    &:hover {
+        background-color: $app-blue;
+    }
+}
