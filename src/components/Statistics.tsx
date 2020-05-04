@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import DeviceInfo from "../types/DeviceInfo";
 import DeviceDataReadings from "../types/DeviceDataToSend";
 import { Line } from "react-chartjs-2";
+import GraphOptions from "./GraphOptions";
 
 interface StatisticsProps {
     device: DeviceInfo;
@@ -22,7 +23,7 @@ export default class Statistics extends PureComponent<StatisticsProps, Statistic
         this.state = {
             device: { deviceId: "", deviceName: "", devicePower: 0 },
             dataLoaded: false,
-            activeTab: 2,
+            activeTab: 0,
             readings: [],
             data: {
                 labels: [],
@@ -156,8 +157,15 @@ export default class Statistics extends PureComponent<StatisticsProps, Statistic
         });
     };
 
-    appendChartData = (dataset: any) => {
-        this.state.data.datasets.push(dataset);
+    handleChartTabChange = (index: number) => {
+        this.setState(
+            {
+                activeTab: index,
+            },
+            () => {
+                this.updateChartData();
+            }
+        );
     };
 
     componentDidMount() {
@@ -180,6 +188,11 @@ export default class Statistics extends PureComponent<StatisticsProps, Statistic
                 <div className="statistics-graph">
                     {this.state.dataLoaded && <Line data={this.state.data} />}
                 </div>
+                <GraphOptions
+                    activeItem={this.state.activeTab}
+                    handleClick={this.handleChartTabChange}
+                    data={["Energia", "Heli", "Temperatuur"]}
+                />
             </div>
         );
     }

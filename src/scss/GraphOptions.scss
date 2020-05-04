@@ -1,0 +1,41 @@
+.graph-options-body {
+    width: 600px;
+    height: 40px;
+    margin-top: 15px;
+}
+
+.graph-options-container {
+    display: flex;
+    width: 350px;
+    height: 40px;
+    margin-left: 40px;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.graph-option {
+    width: auto;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    background-color: #ffffff;
+    color: $app-black;
+    border-radius: 5px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #cacaca;
+    }
+}
+
+.active {
+    background-color: $app-blue;
+    color: #ffffff;
+
+    &:hover {
+        background-color: $app-blue;
+    }
+}
