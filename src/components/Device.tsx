@@ -144,9 +144,20 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
                 airTemp: Number(this.inputAirTemp.current.value),
                 name: this.inputName.current.value,
                 comment: this.inputComment.current.value,
+                timestamp: new Date(),
             };
+            let readings: DeviceDataToSend[];
+            let localData = localStorage.getItem("readings");
 
-            console.log(dataToSend);
+            if (localData === null) {
+                readings = [];
+                readings.push(dataToSend);
+            } else {
+                readings = JSON.parse(localData);
+                readings.push(dataToSend);
+            }
+
+            localStorage.setItem("readings", JSON.stringify(readings));
         }
     };
 

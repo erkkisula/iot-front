@@ -6,4 +6,5 @@ export default interface DeviceDataToSend {
     airTemp: number;
     name: string;
     comment: string;
+    timestamp: Date;
 }

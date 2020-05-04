@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ComponentBarProps {
     handleClick: Function;
@@ -32,7 +32,7 @@ interface ComponentBarItemProps {
 const ComponentBarItem = (props: ComponentBarItemProps) => {
     return (
         <div
-            className={props.active ? 'sidebar-item active' : 'sidebar-item'}
+            className={props.active ? "bar-option active" : "bar-option"}
             onClick={props.handleClick}
         >
             {props.text}
