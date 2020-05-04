@@ -1,4 +1,4 @@
-export default interface DeviceDataToSend {
+export default interface DeviceDataReadings {
     deviceId: string;
     noise: number;
     power: number;

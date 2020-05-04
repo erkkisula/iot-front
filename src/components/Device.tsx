@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import DeviceInfo from "../types/DeviceInfo";
-import DeviceDataToSend from "../types/DeviceDataToSend";
+import DeviceDataReadings from "../types/DeviceDataToSend";
 
 interface DeviceState {
     device: DeviceInfo;
@@ -136,7 +136,7 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
             this.inputDeviceTemp.current != null &&
             this.inputAirTemp.current != null
         ) {
-            const dataToSend: DeviceDataToSend = {
+            const dataToSend: DeviceDataReadings = {
                 deviceId: this.props.deviceInfo.deviceId,
                 noise: this.state.currentNoise,
                 power: this.state.currentPower,
@@ -146,7 +146,7 @@ export default class Device extends PureComponent<DeviceProps, DeviceState> {
                 comment: this.inputComment.current.value,
                 timestamp: new Date(),
             };
-            let readings: DeviceDataToSend[];
+            let readings: DeviceDataReadings[];
             let localData = localStorage.getItem("readings");
 
             if (localData === null) {

@@ -3,6 +3,7 @@ import Device from "../components/Device";
 import Sidebar from "../components/Sidebar";
 import DeviceInfo from "../types/DeviceInfo";
 import ComponentBar from "../components/ComponentBar";
+import Statistics from "../components/Statistics";
 
 interface HomePageState {
     devices: DeviceInfo[];
@@ -32,7 +33,7 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
         });
     };
 
-    initLocalData = () => {
+    getLocalData = () => {
         let localData = localStorage.getItem("devices");
         if (localData === null) {
             const newDevices = [
@@ -53,7 +54,7 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
     };
 
     componentDidMount = () => {
-        this.initLocalData();
+        this.getLocalData();
     };
 
     render() {
@@ -72,6 +73,10 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
                     />
                     {this.state.activeTab === 0 && this.state.devices.length !== 0 && (
                         <Device deviceInfo={this.state.devices[this.state.activeDevice]} />
+                    )}
+
+                    {this.state.activeTab === 1 && this.state.devices.length !== 0 && (
+                        <Statistics device={this.state.devices[this.state.activeDevice]} />
                     )}
                 </div>
             </div>

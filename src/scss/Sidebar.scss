@@ -30,6 +30,7 @@
 .sidebar-items {
     overflow: auto;
     overflow-x: hidden;
+    max-height: 85%;
     &::-webkit-scrollbar {
         width: 10px;
     }
