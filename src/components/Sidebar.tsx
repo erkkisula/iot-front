@@ -22,6 +22,12 @@ const Sidebar = (props: SidebarProps) => {
                     onClick={() => props.itemOnClick(i)}
                 />
             ))}
+            <div className="divider-line"></div>
+            <SidebarItem
+                text={"Lisa seade"}
+                active={false}
+                onClick={() => console.log("New device")}
+            />
         </div>
     );
 };
