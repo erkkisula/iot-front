@@ -10,6 +10,7 @@ interface StatisticsProps {
 interface StatisticsState {
     device: DeviceInfo;
     dataLoaded: boolean;
+    activeTab: number;
     readings: DeviceDataReadings[];
     data: any;
 }
@@ -21,6 +22,7 @@ export default class Statistics extends PureComponent<StatisticsProps, Statistic
         this.state = {
             device: { deviceId: "", deviceName: "", devicePower: 0 },
             dataLoaded: false,
+            activeTab: 2,
             readings: [],
             data: {
                 labels: [],
@@ -55,44 +57,107 @@ export default class Statistics extends PureComponent<StatisticsProps, Statistic
                     readings: deviceReadings,
                 },
                 () => {
-                    this.setChartData();
+                    this.updateChartData();
                 }
             );
         }
     };
 
-    setChartData = () => {
+    updateChartData = () => {
         if (this.state.readings.length !== 0) {
-            let labelReadings: any = [];
-            let powerReadings: any = [];
-            this.state.readings.forEach((item: DeviceDataReadings) => {
-                labelReadings.push(item.timestamp.toString());
-                powerReadings.push(item.power);
-            });
+            let chartLabels: any = [];
+            let chartData: any = [];
 
-            console.log(labelReadings);
-            console.log(powerReadings);
-
-            this.setState({
-                data: {
-                    labels: labelReadings,
-                    datasets: [
-                        {
-                            label: "Energia kasutus",
-                            borderColor: "red",
-                            data: powerReadings,
-                        },
-                    ],
-                },
-            });
+            switch (this.state.activeTab) {
+                case 0:
+                    this.state.readings.forEach((item: DeviceDataReadings) => {
+                        chartLabels.push(item.timestamp.toString());
+                        chartData.push(item.power);
+                    });
+                    this.setChartData(chartLabels, chartData, "Energia(W)");
+                    break;
+                case 1:
+                    this.state.readings.forEach((item: DeviceDataReadings) => {
+                        chartLabels.push(item.timestamp.toString());
+                        chartData.push(item.noise);
+                    });
+                    this.setChartData(chartLabels, chartData, "Heli(dB)");
+                    break;
+                case 2:
+                    let chartData2: any = [];
+                    this.state.readings.forEach((item: DeviceDataReadings) => {
+                        chartLabels.push(item.timestamp.toString());
+                        chartData.push(item.deviceTemp);
+                        chartData2.push(item.airTemp);
+                    });
+                    this.setChartDualDatasets(
+                        chartLabels,
+                        chartData,
+                        "Seadme temp(C)",
+                        chartData2,
+                        "Õhu temp(C)"
+                    );
+                    break;
+                default:
+                    break;
+            }
         } else {
-            this.setState({
-                data: {
-                    labels: [],
-                    datasets: [],
-                },
-            });
+            this.setChartEmpty();
         }
+    };
+
+    setChartEmpty = () => {
+        this.setState({
+            data: {
+                labels: [],
+                datasets: [],
+            },
+        });
+    };
+
+    setChartData = (chartlabels: any, dataset: any, datasetlabel: string) => {
+        this.setState({
+            data: {
+                labels: chartlabels,
+                datasets: [
+                    {
+                        label: datasetlabel,
+                        borderColor: "red",
+                        data: dataset,
+                    },
+                ],
+            },
+        });
+    };
+
+    setChartDualDatasets = (
+        chartlabels: any,
+        dataset1: any,
+        datasetlabel1: string,
+        dataset2: any,
+        datasetlabel2: any
+    ) => {
+        this.setState({
+            data: {
+                labels: chartlabels,
+                datasets: [
+                    {
+                        label: datasetlabel1,
+                        borderColor: "red",
+                        data: dataset1,
+                    },
+                    {
+                        label: datasetlabel2,
+                        borderColor: "blue",
+                        data: dataset2,
+                    },
+                ],
+            },
+        });
+    };
+
+    appendChartData = (dataset: any) => {
+        this.state.data.datasets.push(dataset);
     };
 
     componentDidMount() {
