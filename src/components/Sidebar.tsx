@@ -13,21 +13,23 @@ const Sidebar = (props: SidebarProps) => {
             <div className="sidebar-title">
                 <span>Seadmed</span>
             </div>
-            <div className="divider"></div>
-            {props.data.map((item, i: number) => (
+            <div className="sidebar-items">
+                <div className="divider"></div>
+                {props.data.map((item, i: number) => (
+                    <SidebarItem
+                        key={i}
+                        text={item.deviceName}
+                        active={i === props.activeItem}
+                        onClick={() => props.itemOnClick(i)}
+                    />
+                ))}
+                <div className="divider-line"></div>
                 <SidebarItem
-                    key={i}
-                    text={item.deviceName}
-                    active={i === props.activeItem}
-                    onClick={() => props.itemOnClick(i)}
+                    text={"Lisa seade"}
+                    active={false}
+                    onClick={() => console.log("New device")}
                 />
-            ))}
-            <div className="divider-line"></div>
-            <SidebarItem
-                text={"Lisa seade"}
-                active={false}
-                onClick={() => console.log("New device")}
-            />
+            </div>
         </div>
     );
 };
