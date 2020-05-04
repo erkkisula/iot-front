@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import Device from '../components/Device';
-import Sidebar from '../components/Sidebar';
-import DeviceInfo from '../types/DeviceInfo';
-import ComponentBar from '../components/ComponentBar';
+import React, { PureComponent } from "react";
+import Device from "../components/Device";
+import Sidebar from "../components/Sidebar";
+import DeviceInfo from "../types/DeviceInfo";
+import ComponentBar from "../components/ComponentBar";
 
 interface HomePageState {
     devices: DeviceInfo[];
@@ -14,10 +14,7 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            devices: [
-                { deviceId: '1', deviceName: 'DEV001', devicePower: 1600 },
-                { deviceId: '2', deviceName: 'DEV002', devicePower: 250 },
-            ],
+            devices: [],
             activeDevice: 0,
             activeTab: 0,
         };
@@ -35,6 +32,30 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
         });
     };
 
+    initLocalData = () => {
+        let localData = localStorage.getItem("devices");
+        if (localData === null) {
+            const newDevices = [
+                { deviceId: "1", deviceName: "DEV001", devicePower: 1600 },
+                { deviceId: "2", deviceName: "DEV002", devicePower: 250 },
+            ];
+            this.setState(
+                {
+                    devices: newDevices,
+                },
+                () => localStorage.setItem("devices", JSON.stringify(newDevices))
+            );
+        } else {
+            this.setState({
+                devices: JSON.parse(localData),
+            });
+        }
+    };
+
+    componentDidMount = () => {
+        this.initLocalData();
+    };
+
     render() {
         return (
             <div className="homepage-body">
@@ -47,9 +68,9 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
                     <ComponentBar
                         activeItem={this.state.activeTab}
                         handleClick={this.changeActiveTab}
-                        data={['Seadme info', 'Statistika']}
+                        data={["Seadme info", "Statistika"]}
                     />
-                    {this.state.activeTab === 0 && (
+                    {this.state.activeTab === 0 && this.state.devices.length !== 0 && (
                         <Device deviceInfo={this.state.devices[this.state.activeDevice]} />
                     )}
                 </div>
