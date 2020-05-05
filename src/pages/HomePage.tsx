@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import DeviceInfo from "../types/DeviceInfo";
 import ComponentBar from "../components/ComponentBar";
 import Statistics from "../components/Statistics";
-import { getRandomNumberToNearestFifty } from "../util";
+import { createNewRandomDevice } from "../services/deviceServices";
 
 interface HomePageState {
     devices: DeviceInfo[];
@@ -34,38 +34,10 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
         });
     };
 
-    createNewRandomDevice = () => {
-        let localData = localStorage.getItem("devices");
-        let newDevice: DeviceInfo = { deviceId: "", deviceName: "", devicePower: 0 };
-        if (localData === null) {
-            newDevice = {
-                deviceId: "1",
-                deviceName: "DEV001",
-                devicePower: getRandomNumberToNearestFifty(),
-            };
-        } else {
-            localData = JSON.parse(localData);
-            if (localData !== null) {
-                newDevice = {
-                    deviceId: (localData.length + 1).toString(),
-                    deviceName: this.createDeviceName(localData.length + 1),
-                    devicePower: getRandomNumberToNearestFifty(),
-                };
-            }
-        }
-
-        return newDevice;
-    };
-
-    createDeviceName = (length: number) => {
-        let i = 3 - length.toString().length;
-        return "DEV" + "0".repeat(i) + length.toString();
-    };
-
     addNewRandomDevice = () => {
         let localData = localStorage.getItem("devices");
         if (localData === null) {
-            const newDevices = [this.createNewRandomDevice()];
+            const newDevices = [createNewRandomDevice()];
             this.setState(
                 {
                     devices: newDevices,
@@ -74,7 +46,7 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
             );
         } else {
             let newDevices: DeviceInfo[] = JSON.parse(localData);
-            newDevices.push(this.createNewRandomDevice());
+            newDevices.push(createNewRandomDevice());
             this.setState(
                 {
                     devices: newDevices,
