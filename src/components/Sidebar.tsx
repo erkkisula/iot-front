@@ -4,6 +4,7 @@ import DeviceInfo from "../types/DeviceInfo";
 
 interface SidebarProps {
     itemOnClick: Function;
+    createNewDevice: Function;
     data: DeviceInfo[];
     activeItem: number;
 }
@@ -28,7 +29,7 @@ const Sidebar = (props: SidebarProps) => {
             <SidebarItem
                 text={"Lisa seade"}
                 active={false}
-                onClick={() => console.log("New device")}
+                onClick={() => props.createNewDevice()}
             />
         </div>
     );

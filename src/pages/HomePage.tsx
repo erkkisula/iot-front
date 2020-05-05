@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import DeviceInfo from "../types/DeviceInfo";
 import ComponentBar from "../components/ComponentBar";
 import Statistics from "../components/Statistics";
+import { getRandomNumberToNearestFifty } from "../util";
 
 interface HomePageState {
     devices: DeviceInfo[];
@@ -31,6 +32,56 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
         this.setState({
             activeTab: index,
         });
+    };
+
+    createNewRandomDevice = () => {
+        let localData = localStorage.getItem("devices");
+        let newDevice: DeviceInfo = { deviceId: "", deviceName: "", devicePower: 0 };
+        if (localData === null) {
+            newDevice = {
+                deviceId: "1",
+                deviceName: "DEV001",
+                devicePower: getRandomNumberToNearestFifty(),
+            };
+        } else {
+            localData = JSON.parse(localData);
+            if (localData !== null) {
+                newDevice = {
+                    deviceId: (localData.length + 1).toString(),
+                    deviceName: this.createDeviceName(localData.length + 1),
+                    devicePower: getRandomNumberToNearestFifty(),
+                };
+            }
+        }
+
+        return newDevice;
+    };
+
+    createDeviceName = (length: number) => {
+        let i = 3 - length.toString().length;
+        return "DEV" + "0".repeat(i) + length.toString();
+    };
+
+    addNewRandomDevice = () => {
+        let localData = localStorage.getItem("devices");
+        if (localData === null) {
+            const newDevices = [this.createNewRandomDevice()];
+            this.setState(
+                {
+                    devices: newDevices,
+                },
+                () => localStorage.setItem("devices", JSON.stringify(newDevices))
+            );
+        } else {
+            let newDevices: DeviceInfo[] = JSON.parse(localData);
+            newDevices.push(this.createNewRandomDevice());
+            this.setState(
+                {
+                    devices: newDevices,
+                },
+                () => localStorage.setItem("devices", JSON.stringify(newDevices))
+            );
+        }
     };
 
     getLocalData = () => {
@@ -64,6 +115,7 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
                     data={this.state.devices}
                     activeItem={this.state.activeDevice}
                     itemOnClick={this.changeActiveItem}
+                    createNewDevice={this.addNewRandomDevice}
                 />
                 <div className="homepage-device-container">
                     <ComponentBar
