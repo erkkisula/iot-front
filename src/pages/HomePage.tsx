@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import DeviceInfo from "../types/DeviceInfo";
 import ComponentBar from "../components/ComponentBar";
 import Statistics from "../components/Statistics";
+import {getRandomNumberToNearestFifty} from "../Util"
 
 interface HomePageState {
     devices: DeviceInfo[];
@@ -32,6 +33,36 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
             activeTab: index,
         });
     };
+
+    addNewRandomDevice = () => {
+      let localData = localStorage.getItem("devices");
+      if (localData === null) {
+        const newDevices = [
+            { deviceId: "1", deviceName: "DEV001", devicePower: getRandomNumberToNearestFifty()},
+        ];
+        this.setState(
+            {
+                devices: newDevices,
+            },
+            () => localStorage.setItem("devices", JSON.stringify(newDevices))
+        );
+      } else {
+          let localDataJSON = JSON.parse(localData);
+          let ranDevice : DeviceInfo = {deviceId: (localDataJSON.length+1).toString(), deviceName: this.createDeviceName(localDataJSON.length + 1), devicePower: getRandomNumberToNearestFifty()}
+          localDataJSON.push(ranDevice);
+          this.setState(
+              {
+                  devices: localDataJSON,
+              },
+              () => localStorage.setItem("devices", JSON.stringify(localDataJSON))
+          );
+      }
+    }
+
+    createDeviceName = (length: number) => {
+      let i = 3 - length.toString().length;
+      return "DEV" + "0".repeat(i) + length.toString();
+    }
 
     getLocalData = () => {
         let localData = localStorage.getItem("devices");
@@ -64,6 +95,7 @@ export default class HomePage extends PureComponent<{}, HomePageState> {
                     data={this.state.devices}
                     activeItem={this.state.activeDevice}
                     itemOnClick={this.changeActiveItem}
+                    createNewOnClick={this.addNewRandomDevice}
                 />
                 <div className="homepage-device-container">
                     <ComponentBar
