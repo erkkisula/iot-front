@@ -6,6 +6,7 @@ interface SidebarProps {
     itemOnClick: Function;
     data: DeviceInfo[];
     activeItem: number;
+    createNewOnClick : Function;
 }
 const Sidebar = (props: SidebarProps) => {
     return (
@@ -28,7 +29,7 @@ const Sidebar = (props: SidebarProps) => {
             <SidebarItem
                 text={"Lisa seade"}
                 active={false}
-                onClick={() => console.log("New device")}
+                onClick={() => props.createNewOnClick()}
             />
         </div>
     );
